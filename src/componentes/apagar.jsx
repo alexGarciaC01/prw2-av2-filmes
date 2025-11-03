@@ -1,69 +1,89 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { BASE_URL } from '../api'
+// src/componentes/Apagar.jsx
+import axios from "axios";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { BASE_URL } from "../api";
 
 export default function Apagar() {
-  const [idInput, setIdInput] = useState('')
-  const [filme, setFilme] = useState(null)
-  const [status, setStatus] = useState('idle') // idle | found | notfound | loading
+  const [id, setId] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  const handleProcurar = () => {
-    if (!idInput) return alert('Digite um ID')
-    setStatus('loading')
-    axios.get(`${BASE_URL}/${idInput}`)
-      .then(res => {
-        setFilme(res.data)
-        setStatus('found')
-      })
-      .catch(err => {
-        console.error(err)
-        setFilme(null)
-        setStatus('notfound')
-      })
-  }
-
-  const handleApagar = () => {
-    if (!filme) return
-    const confirm = window.confirm(`Deseja realmente apagar o filme "${filme.nome}" (ID ${filme.id})?`)
-    if (!confirm) return
-    axios.delete(`${BASE_URL}/${filme.id}`)
+  const handleDelete = () => {
+    axios
+      .delete(`${BASE_URL}/${id}`)
       .then(() => {
-        alert('Filme apagado com sucesso.')
-        setFilme(null)
-        setStatus('idle')
-        setIdInput('')
+        setMensagem("🎬 Filme apagado com sucesso!");
+        setShowModal(false);
+        setId("");
       })
-      .catch(err => {
-        console.error(err)
-        alert('Erro ao apagar.')
-      })
-  }
+      .catch(() => {
+        setMensagem("❌ Erro ao apagar filme.");
+        setShowModal(false);
+      });
+  };
 
   return (
-    <div className="card p-4">
-      <h3>Apagar Filme</h3>
+    <div className="card shadow p-4 text-center">
+      <h3 className="text-danger mb-3">🗑️ Apagar Filme</h3>
 
-      <div className="mb-3 d-flex gap-2">
-        <input className="form-control" placeholder="Digite o ID do filme" value={idInput} onChange={e => setIdInput(e.target.value)} />
-        <button className="btn btn-danger" onClick={handleProcurar}>Procurar</button>
-        <Link to="/" className="btn btn-secondary">Cancelar</Link>
+      {/* Campo de ID e botões */}
+      <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
+        <input
+          className="form-control w-50"
+          placeholder="Digite o ID do filme"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+        />
+        <button
+          className="btn btn-danger"
+          disabled={!id}
+          onClick={() => setShowModal(true)} // <-- Abre o modal
+        >
+          Apagar
+        </button>
+        <Link to="/" className="btn btn-secondary">
+          Voltar
+        </Link>
       </div>
 
-      {status === 'loading' && <div>Procurando...</div>}
-      {status === 'notfound' && <div className="alert alert-warning">Filme não encontrado.</div>}
+      {/* Mensagem de status */}
+      {mensagem && <div className="alert alert-info mt-3">{mensagem}</div>}
 
-      {status === 'found' && filme && (
-        <div>
-          <p><strong>ID:</strong> {filme.id}</p>
-          <p><strong>Nome:</strong> {filme.nome}</p>
-          <p><strong>Gênero:</strong> {filme.genero}</p>
-          <p><strong>Ano:</strong> {filme.ano}</p>
-
-          <button className="btn btn-danger me-2" onClick={handleApagar}>Confirmar exclusão</button>
-          <button className="btn btn-secondary" onClick={() => { setFilme(null); setStatus('idle') }}>Cancelar</button>
+      {/* Modal bonito de confirmação */}
+      {showModal && (
+        <div className="modal fade show">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content shadow-lg border-0">
+              <div className="modal-header bg-danger text-white">
+                <h5 className="modal-title">Confirmar exclusão</h5>
+                <button
+                  type="button"
+                  className="btn-close btn-close-white"
+                  onClick={() => setShowModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>
+                  Tem certeza que deseja apagar o filme com <br />
+                  <strong>ID {id}</strong>?
+                </p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button className="btn btn-danger" onClick={handleDelete}>
+                  Confirmar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
-  )
+  );
 }

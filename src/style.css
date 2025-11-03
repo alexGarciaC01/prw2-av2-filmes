@@ -1,10 +1,79 @@
+/* src/estilos.css */
+
 body {
-  background: #f8f9fa;
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", sans-serif;
 }
+
 .card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
-  padding: 1.25rem;
+  border-radius: 1rem;
 }
-h3 { margin-bottom: 1rem; }
+
+h3, h2 {
+  font-weight: 600;
+}
+
+.btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Estilo personalizado do modal de exclusão ===== */
+
+.modal.show {
+  display: block !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-content {
+  border-radius: 1rem;
+  border: none;
+  overflow: hidden;
+  animation: zoomIn 0.25s ease-in-out;
+}
+
+.modal-header.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff;
+}
+
+.btn-close-white {
+  filter: invert(1);
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-body p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.modal-footer .btn {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+/* ===== Fim do estilo do modal ===== */
