@@ -1,4 +1,3 @@
-// src/componentes/Ler.jsx
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -12,7 +11,7 @@ export default function Ler() {
     axios
       .get(`${BASE_URL}/${id}`)
       .then((res) => {
-        console.log("🔍 Dados recebidos da API:", res.data); // <-- debug temporário
+        console.log("🔍 Dados recebidos da API:", res.data);
         setFilme(res.data);
       })
       .catch((err) => console.error("Erro ao buscar filme:", err));

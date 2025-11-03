@@ -99,7 +99,7 @@ export default function Inicio() {
         </table>
       </div>
 
-      {/* Modal de confirmação */}
+      {}
       {showModal && (
         <div className="modal fade show">
           <div className="modal-dialog modal-dialog-centered">

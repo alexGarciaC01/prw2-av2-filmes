@@ -1,4 +1,3 @@
-// src/componentes/Apagar.jsx
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -27,7 +26,7 @@ export default function Apagar() {
     <div className="card shadow p-4 text-center">
       <h3 className="text-danger mb-3">🗑️ Apagar Filme</h3>
 
-      {/* Campo de ID e botões */}
+      {/*ID e botões */}
       <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
         <input
           className="form-control w-50"
@@ -47,10 +46,10 @@ export default function Apagar() {
         </Link>
       </div>
 
-      {/* Mensagem de status */}
+      {}
       {mensagem && <div className="alert alert-info mt-3">{mensagem}</div>}
 
-      {/* Modal bonito de confirmação */}
+      {}
       {showModal && (
         <div className="modal fade show">
           <div className="modal-dialog modal-dialog-centered">
